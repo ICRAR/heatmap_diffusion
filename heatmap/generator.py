@@ -1,3 +1,5 @@
+import random
+
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -14,7 +16,7 @@ def random_mean_from_range(lower=10, upper=100):
     :return:
     """
     rng = np.random.default_rng()
-    return rng.integers(lower, upper)
+    return rng.integers(lower, upper), rng.integers(lower, upper)
 
 
 def random_covariance_from_range(lower=1000, upper=100000):
@@ -41,14 +43,14 @@ def generate_sources(num_sources: int = 1, mean=(10, 100), cov=(100, 1000)):
     mu_lower, mu_upper = mean
     cov_lower, cov_upper = cov
     for i in range(num_sources):
-        mean = random_mean_from_range(mu_lower, mu_upper)
+        mean_a, mean_b, = random_mean_from_range(mu_lower, mu_upper)
         cov = random_covariance_from_range(cov_lower, cov_upper)
         cov_x = (cov_upper - cov)
         cov_y = (cov_lower + cov)
         if i%2 == 0:
-            sources.append(([mean, mean], [[cov_x,cov_y], [0, cov]]))
+            sources.append(([mean_a, mean_b], [[cov_x,cov_y], [0, cov]]))
         else:
-            sources.append(([mean, mean], [[cov,0], [0, cov]]))
+            sources.append(([mean_b, mean_a], [[cov,0], [0, cov]]))
     return sources
 
 
@@ -68,20 +70,8 @@ def generate_heatmap(sources: list, rows: int = 100, cols: int = 100,
     for mean, cov in sources:
         heat += multivariate_normal(mean, cov).pdf(grid_coordinates)
     lower, upper = bounds
-    return lower + (heat / np.max(heat)) * 80
+    return lower + (heat / np.max(heat)) * upper
 
-def apply_boundaries(heatmap):
-    """
-
-    Parameters
-    ----------
-    heatmap
-
-    Returns
-    -------
-
-    """
-    return heatmap
 
 def heatmap_to_csv(heatmap, path: str):
     """
@@ -112,7 +102,11 @@ import argparse
 if __name__ == '__main__':
     parser = argparse.ArgumentParser("Generate set of heatmaps within boundary "
                                      "parameters.")
-    map = generate_heatmap(generate_sources(2, mean=(100, 500)), rows=500,
-                           cols=500)
-    buffer = heatmap_to_csv(map, "../output/heatmap.csv")
-    heatmap_to_png(map, "../output/heatmap.png")
+    for i in range(25):
+        num_sources = random.randint(1, 5)
+        map = generate_heatmap(generate_sources(num_sources, mean=(50, 850),
+                                                cov=(1000,5000)),
+                                                rows=1000,
+                                               cols=1000)
+        heatmap_to_csv(map, f"data/heatmap_{i}.csv")
+        heatmap_to_png(map, f"data/heatmap_{i}.png")

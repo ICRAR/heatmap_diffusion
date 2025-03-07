@@ -1,9 +1,10 @@
-from pathlib import Path
+import argparse
+import time
 import matplotlib.collections
 import matplotlib.pyplot as plt
-from matplotlib import animation
 import numpy as np
 
+from matplotlib import animation
 
 def diffuse_heatgrid(grid, timesteps: int = 100):
     """
@@ -55,61 +56,57 @@ def animate_diffusion(grid: np.array, path: str):
         ax.set_title(f"Frame {frame}")
         return im,
 
-    if animate:
-        ani = animation.FuncAnimation(fig, update, frames=500, interval=250, blit=False)
-        writer = animation.PillowWriter(fps=15, metadata=dict(artist='Me'), bitrate=1800)
-        ani.save('diffusion.gif', writer=writer)
+    ani = animation.FuncAnimation(fig, update, frames=500, interval=250, blit=False)
+    writer = animation.PillowWriter(fps=15, metadata=dict(artist='Me'), bitrate=1800)
+    ani.save(path, writer=writer)
 
 
-def split_grid(grid: np.array):
-    """
+def diffuse_heatgrid_with_timesteps(grid, timesteps):
 
-    :param grid:
-    :return:
-    """
+    padded_grid = np.pad(grid, ((5, 5), (0, 0)), mode='edge')
 
+    for i in range(timesteps):
+        padded_grid = diffuse_heatgrid(padded_grid)
 
-def gather_splits(splits: list):
-    """
+    return padded_grid[5:-5, :]
 
-    :param splits:
-    :return:
-    """
-
-
-import argparse
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser("Run diffuse simulations")
     parser.add_argument("input", help="input heatmap data")
-    parser.add_argument("--timesteps", default=25)
-    parser.add_argument("--parallel", action='store_true', default=False)
     parser.add_argument("output", help="The output file name")
+    parser.add_argument("--timesteps", default=25, type=int)
+    parser.add_argument("--parallel", action='store_true', default=False)
+    parser.add_argument("-V", "--visualise", action="store_true", default=False)
 
     plot_dir = "fig/"
     args = parser.parse_args()
     timesteps = args.timesteps
     final_grid = np.genfromtxt(args.input, delimiter=',')
+    print("Initial max (°C): ", np.max(final_grid))
 
-    fig, ax, im = plot_diffusion(final_grid)
+    st = time.time()
     if args.parallel:
-        grid_splits = np.split(final_grid, [10, 10])
+        grid_splits = [(split, timesteps) for split in np.array_split(final_grid, 10)]
 
         post_splits = []
-        for g in grid_splits:
-            for i in range(timesteps):
-                g = diffuse_heatgrid(g)
-
-        post_splits.append(g)
+        from multiprocessing import Pool
+        with Pool(processes=4) as pool:
+            post_splits = (
+                pool.starmap(diffuse_heatgrid_with_timesteps, grid_splits)
+            )
 
         final_grid = np.vstack(post_splits)
 
     else:
         for i in range(timesteps):
             final_grid = diffuse_heatgrid(final_grid)
-        print(np.mean(final_grid))
+    ft = time.time()
+    print("Diffuse max (°C): ", np.max(final_grid))
+    print(f"Runtime: {ft-st}")
 
-        fig2, ax2 = plt.subplots()
-        im2 = ax2.pcolormesh(final_grid, cmap="hot", vmin=25, shading='auto', vmax=100)
-        fig2.colorbar(im2, ax=ax2, label="Temperature (C)")
-        plt.savefig("diffusion.png")
+    if args.visualise:
+        fig, ax = plt.subplots()
+        im = ax.pcolormesh(final_grid, cmap="hot", vmin=25, shading='auto', vmax=100)
+        fig.colorbar(im, ax=ax, label="Temperature (C)")
+        plt.savefig("output/diffusion.png")
