@@ -6,12 +6,11 @@ import numpy as np
 
 from matplotlib import animation
 
-def diffuse_heatgrid(grid, timesteps: int = 100):
+def diffuse_heatgrid(grid: np.array):
     """
     Given a 2D heatmap, perform diffusion according to laplace equation.
 
-    :param grid_path:
-    :param timesteps:
+    :param grid:
     :return:
     """
 
@@ -27,18 +26,16 @@ def diffuse_heatgrid(grid, timesteps: int = 100):
     return grid
 
 
-def plot_diffusion(grid: np.array) -> (
+def plot_diffusion(grid: np.array, filename: str) -> (
         plt.Figure, plt.Axes, matplotlib.collections.QuadMesh):
     """
-
     :param grid:
     :return:
     """
     fig, ax = plt.subplots()
-
-    im = ax.pcolormesh(grid, cmap="hot", vmin=25)
-    fig.colorbar(im, ax=ax, label="Temperature (C)")
-    return fig, ax, im
+    im = ax.pcolormesh(grid, cmap="hot", vmin=25, shading='auto', vmax=100)
+    fig.colorbar(im, ax=ax, label="Temperature (°C)")
+    plt.savefig(filename)
 
 
 def animate_diffusion(grid: np.array, path: str):
