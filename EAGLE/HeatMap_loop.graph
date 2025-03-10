@@ -47,7 +47,7 @@
                 "d425a932-75f1-4a8b-96d2-776db864681b": {
                     "fields": {
                         "3784ad47-9309-4b40-a055-f6e215201d9c": {
-                            "value": "100",
+                            "value": "500",
                             "comment": ""
                         }
                     }
@@ -486,7 +486,7 @@
             "id": "d425a932-75f1-4a8b-96d2-776db864681b",
             "name": "Loop",
             "description": "A loop template drop",
-            "x": 801.0037427781435,
+            "x": 797.620676233426,
             "y": 330.28727853297084,
             "subject": null,
             "repositoryUrl": "https://github.com/ICRAR/daliuge",
