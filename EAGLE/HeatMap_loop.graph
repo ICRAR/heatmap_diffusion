@@ -33,8 +33,8 @@
             "id": "143d64bc-a6f3-44a5-b562-d3396fdc01fe",
             "name": "diffusion.diffuse_heatgrid",
             "description": "Given a 2D heatmap, perform diffusion according to laplace equation.\n\n:param grid_path:\n:param timesteps:\n:return:\n",
-            "x": 787.8975512169789,
-            "y": 290.4080568348478,
+            "x": 789.5890844893381,
+            "y": 219.36365939578246,
             "subject": null,
             "repositoryUrl": "heatmap",
             "commitHash": "0.1",
@@ -43,7 +43,7 @@
             "parentId": "d425a932-75f1-4a8b-96d2-776db864681b",
             "fields": [
                 {
-                    "name": "dummy",
+                    "name": "grid_in",
                     "value": "",
                     "defaultValue": "",
                     "description": "",
@@ -55,10 +55,10 @@
                     "encoding": "pickle",
                     "id": "5d029eb1-dfb9-4ea8-b1de-633246ae860d",
                     "parameterType": "ApplicationArgument",
-                    "usage": "InputOutput"
+                    "usage": "InputPort"
                 },
                 {
-                    "name": "",
+                    "name": "grid_out",
                     "value": "",
                     "defaultValue": "",
                     "description": "",
@@ -70,7 +70,7 @@
                     "encoding": "pickle",
                     "id": "6868d704-651f-4d6f-b6a7-3f60a73adb77",
                     "parameterType": "ComponentParameter",
-                    "usage": "NoPort"
+                    "usage": "OutputPort"
                 },
                 {
                     "name": "execution_time",
@@ -461,7 +461,7 @@
             "fields": [
                 {
                     "name": "num_of_iter",
-                    "value": 10,
+                    "value": 3,
                     "defaultValue": "2",
                     "description": "Number of iterations",
                     "readonly": false,
@@ -1237,8 +1237,16 @@
             "closesLoop": true
         },
         {
+            "from": "ed19aa9b-581f-4fae-9cb1-f3bf858d4924",
+            "fromPort": "a8c5d36f-5a78-4e37-aa98-c574e98246f3",
+            "to": "cde7c720-9640-4047-89fd-4b6eceb7a139",
+            "toPort": "80fcb64f-5481-4eff-9869-05426b5f6fb6",
+            "loop_aware": "0",
+            "closesLoop": false
+        },
+        {
             "from": "143d64bc-a6f3-44a5-b562-d3396fdc01fe",
-            "fromPort": "5d029eb1-dfb9-4ea8-b1de-633246ae860d",
+            "fromPort": "6868d704-651f-4d6f-b6a7-3f60a73adb77",
             "to": "c8878a53-de03-4007-b7f2-8ae63971a49c",
             "toPort": "b031ed4b-ed95-441f-9e6f-d3ec00b03e58",
             "loop_aware": "0",
@@ -1246,17 +1254,9 @@
         },
         {
             "from": "143d64bc-a6f3-44a5-b562-d3396fdc01fe",
-            "fromPort": "5d029eb1-dfb9-4ea8-b1de-633246ae860d",
+            "fromPort": "6868d704-651f-4d6f-b6a7-3f60a73adb77",
             "to": "ed19aa9b-581f-4fae-9cb1-f3bf858d4924",
             "toPort": "a8c5d36f-5a78-4e37-aa98-c574e98246f3",
-            "loop_aware": "0",
-            "closesLoop": false
-        },
-        {
-            "from": "ed19aa9b-581f-4fae-9cb1-f3bf858d4924",
-            "fromPort": "a8c5d36f-5a78-4e37-aa98-c574e98246f3",
-            "to": "cde7c720-9640-4047-89fd-4b6eceb7a139",
-            "toPort": "80fcb64f-5481-4eff-9869-05426b5f6fb6",
             "loop_aware": "0",
             "closesLoop": false
         }
