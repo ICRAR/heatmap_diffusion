@@ -21,7 +21,7 @@
         "lastModifiedDatetime": 0,
         "numLGNodes": 8
     },
-    "activeGraphConfigId": "029ff23b-7296-4fa1-92cf-362613199ab1",
+    "activeGraphConfigId": "a330cb06-e29b-4142-9762-471e11e6114c",
     "graphConfigurations": {
         "a330cb06-e29b-4142-9762-471e11e6114c": {
             "name": "debug",
@@ -41,13 +41,13 @@
             "lastModifiedDatetime": 0
         },
         "029ff23b-7296-4fa1-92cf-362613199ab1": {
-            "name": "iterations",
+            "name": "debug (Copy)",
             "description": "",
             "nodes": {
                 "d425a932-75f1-4a8b-96d2-776db864681b": {
                     "fields": {
                         "3784ad47-9309-4b40-a055-f6e215201d9c": {
-                            "value": "500",
+                            "value": "2",
                             "comment": ""
                         }
                     }
@@ -68,8 +68,8 @@
             "id": "143d64bc-a6f3-44a5-b562-d3396fdc01fe",
             "name": "diffusion.diffuse_heatgrid",
             "description": "Given a 2D heatmap, perform diffusion according to laplace equation.\n\n:param grid_path:\n:param timesteps:\n:return:\n",
-            "x": 790.4348511255175,
-            "y": 222.74672594049986,
+            "x": 789.5890844893381,
+            "y": 219.36365939578246,
             "subject": null,
             "repositoryUrl": "heatmap",
             "commitHash": "0.1",
@@ -486,7 +486,7 @@
             "id": "d425a932-75f1-4a8b-96d2-776db864681b",
             "name": "Loop",
             "description": "A loop template drop",
-            "x": 797.620676233426,
+            "x": 801.0037427781435,
             "y": 330.28727853297084,
             "subject": null,
             "repositoryUrl": "https://github.com/ICRAR/daliuge",
@@ -932,7 +932,7 @@
             "id": "c8878a53-de03-4007-b7f2-8ae63971a49c",
             "name": "grid",
             "description": "In-memory storage of intermediate data products",
-            "x": 819.4184010669494,
+            "x": 821.1099343393081,
             "y": 377.16650023109383,
             "subject": null,
             "repositoryUrl": "https://github.com/ICRAR/daliuge",
