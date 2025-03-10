@@ -21,8 +21,43 @@
         "lastModifiedDatetime": 0,
         "numLGNodes": 8
     },
-    "activeGraphConfigId": null,
-    "graphConfigurations": {},
+    "activeGraphConfigId": "029ff23b-7296-4fa1-92cf-362613199ab1",
+    "graphConfigurations": {
+        "a330cb06-e29b-4142-9762-471e11e6114c": {
+            "name": "debug",
+            "description": "",
+            "nodes": {
+                "d425a932-75f1-4a8b-96d2-776db864681b": {
+                    "fields": {
+                        "3784ad47-9309-4b40-a055-f6e215201d9c": {
+                            "value": "2",
+                            "comment": ""
+                        }
+                    }
+                }
+            },
+            "lastModifiedName": "",
+            "lastModifiedEmail": "",
+            "lastModifiedDatetime": 0
+        },
+        "029ff23b-7296-4fa1-92cf-362613199ab1": {
+            "name": "iterations",
+            "description": "",
+            "nodes": {
+                "d425a932-75f1-4a8b-96d2-776db864681b": {
+                    "fields": {
+                        "3784ad47-9309-4b40-a055-f6e215201d9c": {
+                            "value": "100",
+                            "comment": ""
+                        }
+                    }
+                }
+            },
+            "lastModifiedName": "",
+            "lastModifiedEmail": "",
+            "lastModifiedDatetime": 0
+        }
+    },
     "nodeDataArray": [
         {
             "category": "PythonApp",
@@ -461,7 +496,7 @@
             "fields": [
                 {
                     "name": "num_of_iter",
-                    "value": 3,
+                    "value": 2,
                     "defaultValue": "2",
                     "description": "Number of iterations",
                     "readonly": false,
