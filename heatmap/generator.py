@@ -70,8 +70,7 @@ def generate_heatmap(sources: list, rows: int = 100, cols: int = 100,
     for mean, cov in sources:
         heat += multivariate_normal(mean, cov).pdf(grid_coordinates)
     lower, upper = bounds
-    return lower + (heat / np.max(heat)) * upper
-
+    return lower + (heat / np.max(heat)) * (upper-lower)
 
 def heatmap_to_csv(heatmap, path: str):
     """
@@ -82,7 +81,6 @@ def heatmap_to_csv(heatmap, path: str):
     np.savetxt(path, heatmap, delimiter=',')
 
 
-
 def heatmap_to_png(heatmap, path: str):
     """
     Produce a png of the heatmap
@@ -91,11 +89,10 @@ def heatmap_to_png(heatmap, path: str):
     """
     fig, ax = plt.subplots()
 
-    im = ax.pcolormesh(heatmap, cmap="hot")
+    im = ax.pcolormesh(heatmap, cmap="hot", vmin=25, shading='auto', vmax=100)
     fig.colorbar(im, ax=ax, label="Temperature (C)")
 
-    plt.savefig(
-        path)  # fig.canvas.draw()  # buffer = BytesIO()  # fig.canvas.print_raw(buffer)  # return buffer
+    plt.savefig(path)
 
 
 import argparse
@@ -104,9 +101,9 @@ if __name__ == '__main__':
                                      "parameters.")
     for i in range(25):
         num_sources = random.randint(1, 5)
-        map = generate_heatmap(generate_sources(num_sources, mean=(50, 850),
-                                                cov=(1000,5000)),
-                                                rows=1000,
-                                               cols=1000)
-        heatmap_to_csv(map, f"data/heatmap_{i}.csv")
-        heatmap_to_png(map, f"data/heatmap_{i}.png")
+        map = generate_heatmap(generate_sources(num_sources, mean=(5, 85),
+                                                cov=(100,500)),
+                                                rows=100,
+                                               cols=100)
+        heatmap_to_csv(map, f"heatmap/data/heatmap_small_{i}.csv")
+        heatmap_to_png(map, f"heatmap/data/heatmap_small_{i}.png")
